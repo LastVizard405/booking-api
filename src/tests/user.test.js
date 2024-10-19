@@ -1,7 +1,7 @@
 const app = require('../app');
 const request = require('supertest');
 
-let token;
+let token, userId;
 
 const BASE_URL = '/api/v1/users';
 
@@ -15,7 +15,9 @@ const user = {
 
 test("POST -> 'BASE_URL', should responde status code 201, and res.body.email === user.email", async () => {
 	const res = await request(app).post(BASE_URL).send(user);
-	console.log(res.body);
+
+	userId = res.body.id;
+
 	expect(res.status).toBe(201);
 	expect(res.body).toBeDefined();
 	expect(res.body.id).toBeDefined();
@@ -56,17 +58,25 @@ test("Get -> 'BASE_URL', should return statusCode 200, and res.body.lentgth === 
 	expect(res.body).toBeDefined();
 	expect(res.body).toHaveLength(1);
 });
-test("Get -> 'BASE_URL', should return statusCode 200, and res.body.lentgth === 1", async () => {
-	const res = await request(app).get(BASE_URL).set('Authorization', `Bearer ${token}`);
 
-	expect(res.status).toBe(200);
+test("Get -> 'BASE_URL/:id', should return statusCode 200, and res.body.email === user.email", async () => {
+	const res = await request(app).get(`${BASE_URL}/${userId}`).set('Authorization', `Bearer ${token}`);
+
+	expect(res.statusCode).toBe(200);
 	expect(res.body).toBeDefined();
-	expect(res.body).toHaveLength(1);
+	expect(res.body.email).toBe(user.email);
 });
-test("Get -> 'BASE_URL', should return statusCode 200, and res.body.lentgth === 1", async () => {
-	const res = await request(app).get(BASE_URL).set('Authorization', `Bearer ${token}`);
 
-	expect(res.status).toBe(200);
+test("PUT -> 'BASE_URL/:id', should return statusCode 200, and res.body.firstName === user.firstName", async () => {
+	const res = await request(app).put(`${BASE_URL}/${userId}`).set('Authorization', `Bearer ${token}`).send({ firstName: 'Dario' });
+
+	expect(res.statusCode).toBe(200);
 	expect(res.body).toBeDefined();
-	expect(res.body).toHaveLength(1);
+	expect(res.body.firstName).toBe('Dario');
+});
+
+test("DELETE -> 'BASE_URL/:id', should return statusCode 204", async () => {
+	const res = await request(app).delete(`${BASE_URL}/${userId}`).set('Authorization', `Bearer ${token}`);
+
+	expect(res.statusCode).toBe(204);
 });
