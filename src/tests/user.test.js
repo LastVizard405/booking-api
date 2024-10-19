@@ -5,13 +5,13 @@ let token;
 
 const BASE_URL = '/api/v1/users';
 
-// const user = {
-// 	firstName: 'Ivan',
-// 	lastName: 'Arteaga',
-// 	email: 'ivan@yahoo.com.ar',
-// 	password: 'ivan1234',
-// 	gender: 'Male',
-// };
+const user = {
+	firstName: 'Ivan',
+	lastName: 'Arteaga',
+	email: 'ivan@yahoo.com.ar',
+	password: 'ivan1234',
+	gender: 'Male',
+};
 
 test("POST -> 'BASE_URL', should responde status code 201, and res.body.email === user.email", async () => {
 	const res = await request(app).post(BASE_URL).send(user);
