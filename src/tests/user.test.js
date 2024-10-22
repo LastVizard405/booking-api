@@ -23,8 +23,8 @@ test("POST -> 'BASE_URL', should responde status code 201, and res.body.email ==
 	expect(res.body.id).toBeDefined();
 	expect(res.body.email).toBe(user.email);
 });
-
-test("POST -> 'BASE_URL/login', should return statusCode 200,  res.body.user and res.body.token to be defined", async () => {
+// login test
+test("POST -> 'BASE_URL/login', should return status code 200,  res.body.user and res.body.token to be defined", async () => {
 	const res = await request(app).post(`${BASE_URL}/login`).send({
 		email: 'ivan@yahoo.com.ar',
 		password: 'ivan1234',
@@ -39,7 +39,7 @@ test("POST -> 'BASE_URL/login', should return statusCode 200,  res.body.user and
 
 	expect(res.body.user.email).toBe(user.email);
 });
-
+// login error test
 test("POST -> 'BASE_URL/login', should return statusCode 401", async () => {
 	const res = await request(app).post(`${BASE_URL}/login`).send({
 		email: 'email@false.com',
@@ -51,7 +51,7 @@ test("POST -> 'BASE_URL/login', should return statusCode 401", async () => {
 	expect(res.body.error).toBe('Error, invalid credentials');
 });
 
-test("Get -> 'BASE_URL', should return statusCode 200, and res.body.lentgth === 1", async () => {
+test("GET -> 'BASE_URL', should return status code 200, and res.body.lentgth === 1", async () => {
 	const res = await request(app).get(BASE_URL).set('Authorization', `Bearer ${token}`);
 
 	expect(res.status).toBe(200);
@@ -59,7 +59,7 @@ test("Get -> 'BASE_URL', should return statusCode 200, and res.body.lentgth === 
 	expect(res.body).toHaveLength(1);
 });
 
-test("Get -> 'BASE_URL/:id', should return statusCode 200, and res.body.email === user.email", async () => {
+test("GET -> 'BASE_URL/:id', should return status code 200, and res.body.email === user.email", async () => {
 	const res = await request(app).get(`${BASE_URL}/${userId}`).set('Authorization', `Bearer ${token}`);
 
 	expect(res.statusCode).toBe(200);
@@ -67,7 +67,7 @@ test("Get -> 'BASE_URL/:id', should return statusCode 200, and res.body.email ==
 	expect(res.body.email).toBe(user.email);
 });
 
-test("PUT -> 'BASE_URL/:id', should return statusCode 200, and res.body.firstName === user.firstName", async () => {
+test("PUT -> 'BASE_URL/:id', should return status code 200, and res.body.firstName === user.firstName", async () => {
 	const res = await request(app).put(`${BASE_URL}/${userId}`).set('Authorization', `Bearer ${token}`).send({ firstName: 'Dario' });
 
 	expect(res.statusCode).toBe(200);
@@ -75,7 +75,7 @@ test("PUT -> 'BASE_URL/:id', should return statusCode 200, and res.body.firstNam
 	expect(res.body.firstName).toBe('Dario');
 });
 
-test("DELETE -> 'BASE_URL/:id', should return statusCode 204", async () => {
+test("DELETE -> 'BASE_URL/:id', should return status code 204", async () => {
 	const res = await request(app).delete(`${BASE_URL}/${userId}`).set('Authorization', `Bearer ${token}`);
 
 	expect(res.statusCode).toBe(204);
