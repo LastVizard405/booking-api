@@ -13,7 +13,7 @@ const user = {
 	gender: 'Male',
 };
 
-test("POST -> 'BASE_URL', should responde status code 201, and res.body.email === user.email", async () => {
+test("POST -> 'BASE_URL', should return status code 201, and res.body.email === user.email", async () => {
 	const res = await request(app).post(BASE_URL).send(user);
 
 	userId = res.body.id;
